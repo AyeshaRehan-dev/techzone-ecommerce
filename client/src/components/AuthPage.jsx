@@ -25,7 +25,7 @@ const AuthPage = ({ onAuthSuccess }) => {
     const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
     
     try {
-      const response = await axios.post(`http://localhost:5000${endpoint}`, formData);
+      const response = await axios.post(endpoint, formData);
       if (response.data.success) {
         onAuthSuccess(response.data.user, response.data.token);
         navigate(response.data.user.role === 'admin' ? '/admin' : '/');

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./db');
+const serverless = require('serverless-http');
 const Product = require('./Product');
 const User = require('./User');
 const Order = require('./Order');
@@ -251,6 +252,8 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, console.log(`Server running on port ${PORT}`));
 
-app.listen(PORT, console.log(`Server running on port ${PORT}`));
+module.exports = app;
+module.exports.handler = serverless(app);

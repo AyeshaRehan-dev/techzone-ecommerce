@@ -28,7 +28,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/products');
+      const response = await axios.get('/api/products');
       setProducts(response.data);
       setLoading(false);
     } catch (err) {
@@ -39,7 +39,7 @@ const AdminDashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/orders');
+      const response = await axios.get('/api/orders');
       setOrders(response.data);
     } catch (err) {
       console.error('Failed to fetch orders:', err);
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users');
+      const response = await axios.get('/api/users');
       setUsers(response.data);
     } catch (err) {
       console.error('Failed to fetch users:', err);
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
 
   const handleStatusUpdate = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/orders/${id}/status`, { status: newStatus });
+      await axios.put(`/api/orders/${id}/status`, { status: newStatus });
       fetchOrders();
     } catch (err) {
       alert('Failed to update status');
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await axios.post('http://localhost:5000/api/products', formData);
+      await axios.post('/api/products', formData);
       setSuccessMessage('Product added successfully!');
       setFormData({
         name: '',
@@ -94,7 +94,7 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/${id}`);
+        await axios.delete(`/api/products/${id}`);
         setProducts(products.filter(p => p._id !== id));
       } catch (err) {
         setError('Error deleting product');

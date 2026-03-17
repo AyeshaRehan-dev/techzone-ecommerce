@@ -61,8 +61,8 @@ function App() {
       setLoading(true);
       try {
         const url = searchTerm 
-          ? `http://localhost:5000/api/products?search=${searchTerm}`
-          : 'http://localhost:5000/api/products';
+          ? `/api/products?search=${searchTerm}`
+          : '/api/products';
         const response = await axios.get(url);
         setProducts(response.data);
         setError(null);

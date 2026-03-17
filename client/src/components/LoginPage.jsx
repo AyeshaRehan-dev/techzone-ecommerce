@@ -14,7 +14,7 @@ const LoginPage = ({ onLogin }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/login', { username, password });
+      const response = await axios.post('/api/admin/login', { username, password });
       if (response.data.success) {
         onLogin(response.data.token);
         navigate('/admin');

@@ -52,7 +52,7 @@ const CartPage = ({ cartItems, clearCart, user }) => {
         totalPrice: total
       };
 
-      await axios.post('http://localhost:5000/api/orders', orderData);
+      await axios.post('/api/orders', orderData);
       setOrderComplete(true);
       clearCart();
     } catch (error) {
