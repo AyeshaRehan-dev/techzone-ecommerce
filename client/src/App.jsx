@@ -78,7 +78,8 @@ function App() {
   }, [searchTerm]);
 
   // Improved Filtering & Sorting
-  let filteredProducts = products.filter((product) =>
+  const productsArray = Array.isArray(products) ? products : [];
+  let filteredProducts = productsArray.filter((product) =>
     selectedCategory === 'All' ? true : product.category === selectedCategory
   );
 
