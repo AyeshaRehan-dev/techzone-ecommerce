@@ -4,11 +4,11 @@
 [build]
   command = "cd client && npm install && npm run build"
   publish = "client/dist"
-  functions = "server"
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/server/api/:splat"
+  to = "/.netlify/functions/api/:splat"
   status = 200
 
 [[redirects]]
