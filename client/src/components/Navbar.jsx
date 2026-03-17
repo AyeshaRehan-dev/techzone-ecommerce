@@ -30,7 +30,7 @@ const Navbar = ({ cartItemCount = 0, user, onLogout, onSearch }) => {
                 </svg>
               </button>
             )}
-            <Link to="/" className="text-base sm:text-2xl font-black bg-clip-text ...">
+            <Link to="/" className="text-base sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 tracking-tighter shrink-0">
               TechZone
             </Link>
           </div>
