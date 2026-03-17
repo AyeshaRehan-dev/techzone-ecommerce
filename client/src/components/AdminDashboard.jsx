@@ -299,9 +299,9 @@ const AdminDashboard = () => {
                   <tbody className="divide-y divide-gray-700/50">
                     {orders.map((order) => (
                       <tr key={order._id} className="hover:bg-blue-500/5 transition-all">
-                        <td className="px-8 py-6">
-                          <p className="text-xs font-mono text-gray-400 mb-1">{order._id}</p>
-                          <p className="font-bold text-white">{order.username}</p>
+                        <td className="px-4 sm:px-8 py-6">
+                          <p className="text-[10px] font-mono text-gray-500 mb-1 break-all">{order._id}</p>
+                          <p className="font-bold text-white text-sm">{order.username}</p>
                           <p className="text-[10px] text-gray-500 mt-1">{order.shippingAddress?.city}, {order.shippingAddress?.country}</p>
                         </td>
                         <td className="px-8 py-6 max-w-xs">
@@ -367,9 +367,9 @@ const AdminDashboard = () => {
                   <tbody className="divide-y divide-gray-700/50">
                     {users.map((u) => (
                       <tr key={u._id} className="hover:bg-blue-500/5 transition-all">
-                        <td className="px-8 py-6">
-                          <p className="text-xs font-mono text-gray-400 mb-1">{u._id}</p>
-                          <p className="font-bold text-white">{u.username}</p>
+                        <td className="px-4 sm:px-8 py-6">
+                          <p className="text-[10px] font-mono text-gray-500 mb-1 break-all">{u._id}</p>
+                          <p className="font-bold text-white text-sm">{u.username}</p>
                         </td>
                         <td className="px-8 py-6 text-gray-300 font-medium">{u.email}</td>
                         <td className="px-8 py-6">

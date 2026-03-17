@@ -13,7 +13,7 @@ const Navbar = ({ cartItemCount = 0, user, onLogout, onSearch }) => {
   return (
     <nav className="fixed w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-700/50">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           <div className="flex items-center gap-4">
             {/* Hamburger Button */}
             {user && (
@@ -30,7 +30,7 @@ const Navbar = ({ cartItemCount = 0, user, onLogout, onSearch }) => {
                 </svg>
               </button>
             )}
-            <Link to="/" className="text-lg sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 tracking-tighter">
+            <Link to="/" className="text-base sm:text-2xl font-black bg-clip-text ...">
               TechZone
             </Link>
           </div>

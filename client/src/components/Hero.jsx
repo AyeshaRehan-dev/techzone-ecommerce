@@ -7,7 +7,7 @@ const Hero = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-blue-500/20 blur-[120px] rounded-full pointer-events-none"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
+        <h1 className="text-2xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
           Discover the{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
             Latest Gadgets
