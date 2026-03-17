@@ -1,0 +1,9 @@
+{
+  "name": "techzone-ecommerce",
+  "version": "1.0.0",
+  "description": "Full-stack E-commerce app on Netlify",
+  "private": true,
+  "scripts": {
+    "build": "cd client && npm install && npm run build"
+  }
+}
