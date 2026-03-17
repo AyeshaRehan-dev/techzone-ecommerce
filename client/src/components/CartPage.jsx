@@ -109,8 +109,8 @@ const CartPage = ({ cartItems, clearCart, user }) => {
           {/* Cart Items List */}
           <div className="lg:col-span-2 space-y-4">
             {groupedItems.map((item, index) => (
-              <div key={index} className="flex gap-6 bg-gray-800/40 backdrop-blur-sm border border-gray-700/50 p-4 rounded-2xl">
-                <div className="w-32 h-32 shrink-0 bg-gray-900 rounded-xl overflow-hidden">
+              <div key={index} className="flex flex-col sm:flex-row gap-4 sm:gap-6 bg-gray-800/40 backdrop-blur-sm border border-gray-700/50 p-4 rounded-2xl">
+                <div className="w-full sm:w-32 h-48 sm:h-32 shrink-0 bg-gray-900 rounded-xl overflow-hidden">
                   <img src={item.imageURL} alt={item.name} className="w-full h-full object-cover opacity-80" />
                 </div>
                 <div className="flex flex-col justify-between flex-grow py-2">

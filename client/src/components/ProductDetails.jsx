@@ -54,7 +54,7 @@ const ProductDetails = ({ onAddToCart }) => {
           Back to Collection
         </Link>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-3xl p-8 shadow-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-3xl p-4 sm:p-8 shadow-2xl">
           {/* Image Column */}
           <div className="rounded-2xl overflow-hidden bg-gray-900 aspect-square">
             <img 
