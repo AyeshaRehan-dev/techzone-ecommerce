@@ -122,7 +122,7 @@ app.post('/api/auth/login', async (req, res) => {
       console.log('Admin login successful');
       return res.json({ 
         success: true, 
-        user: { username: 'Admin', role: 'admin' },
+        user: { username: 'Admin', role: 'admin', id: 'admin-id-123' },
         token: 'mock-admin-token-123' 
       });
     }

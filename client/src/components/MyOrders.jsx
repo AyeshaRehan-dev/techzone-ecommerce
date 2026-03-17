@@ -17,7 +17,11 @@ const MyOrders = ({ userId }) => {
       }
     };
 
-    if (userId) fetchOrders();
+    if (userId) {
+      fetchOrders();
+    } else {
+      setLoading(false);
+    }
   }, [userId]);
 
   if (loading) {
