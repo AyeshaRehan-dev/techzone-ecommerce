@@ -38,8 +38,8 @@ const AuthPage = ({ onAuthSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-gray-800/40 backdrop-blur-md border border-gray-700/50 p-10 rounded-3xl shadow-2xl">
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-gray-900 shadow-2xl border border-gray-800 p-6 sm:p-10 rounded-3xl">
         <div className="text-center">
           <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 mb-2">
             {isLogin ? 'Welcome Back' : 'Create Account'}

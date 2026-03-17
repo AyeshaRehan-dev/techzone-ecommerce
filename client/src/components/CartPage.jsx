@@ -33,13 +33,12 @@ const CartPage = ({ cartItems, clearCart, user }) => {
 
   const handleOrder = async (e) => {
     e.preventDefault();
-    if (!user) return alert('Please log in to place an order');
-    if (!shippingData.address || !shippingData.city) return alert('Please fill in shipping details');
+    const userId = user.id || user._id;
+    if (!userId) return alert('Session mapping error. Please log out and log in again.');
 
-    setIsOrdering(true);
     try {
       const orderData = {
-        userId: user.id || user._id,
+        userId: userId,
         username: user.username,
         items: groupedItems.map(item => ({
           name: item.name,
@@ -88,7 +87,7 @@ const CartPage = ({ cartItems, clearCart, user }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
       <div className="flex items-center mb-8 gap-4">
         <Link to="/" className="text-gray-400 hover:text-white transition-colors">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

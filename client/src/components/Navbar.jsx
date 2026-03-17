@@ -30,7 +30,7 @@ const Navbar = ({ cartItemCount = 0, user, onLogout, onSearch }) => {
                 </svg>
               </button>
             )}
-            <Link to="/" className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+            <Link to="/" className="text-lg sm:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 tracking-tighter">
               TechZone
             </Link>
           </div>
@@ -66,7 +66,7 @@ const Navbar = ({ cartItemCount = 0, user, onLogout, onSearch }) => {
               )}
             </div>
 
-            <div className="flex items-center space-x-4 sm:space-x-6 pl-4 sm:pl-6 border-l border-gray-700/50">
+            <div className="flex items-center space-x-3 sm:space-x-6 pl-3 sm:pl-6 border-l border-gray-700/50">
               {user && (
                 <Link to="/cart" className="relative p-2 text-gray-400 hover:text-white transition-all transform hover:scale-110">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

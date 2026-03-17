@@ -98,7 +98,7 @@ app.post('/api/auth/signup', async (req, res) => {
 
     res.status(201).json({ 
       success: true, 
-      user: { username: user.username, role: user.role },
+      user: { username: user.username, role: user.role, id: user._id },
       token: 'mock-token-' + user._id 
     });
   } catch (error) {
