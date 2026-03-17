@@ -105,29 +105,29 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-white pt-32 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-6">
           <div>
-            <h1 className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
               Admin Control
             </h1>
             <p className="text-gray-500 mt-2 font-medium">Manage your elite tech inventory and orders.</p>
           </div>
-          <div className="flex bg-gray-900/50 p-1.5 rounded-2xl border border-gray-800/50 shadow-inner">
+          <div className="flex flex-wrap bg-gray-900/50 p-1.5 rounded-2xl border border-gray-800/50 shadow-inner w-full lg:w-auto">
             <button 
               onClick={() => setActiveTab('inventory')}
-              className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-gray-500 hover:text-gray-300'}`}
+              className={`flex-1 lg:flex-none px-4 sm:px-6 py-2.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-gray-500 hover:text-gray-300'}`}
             >
               Inventory
             </button>
             <button 
               onClick={() => setActiveTab('orders')}
-              className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'orders' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-gray-500 hover:text-gray-300'}`}
+              className={`flex-1 lg:flex-none px-4 sm:px-6 py-2.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'orders' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-gray-500 hover:text-gray-300'}`}
             >
               Orders {orders.length > 0 && <span className="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-[10px]">{orders.length}</span>}
             </button>
             <button 
               onClick={() => setActiveTab('users')}
-              className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'users' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-gray-500 hover:text-gray-300'}`}
+              className={`flex-1 lg:flex-none px-4 sm:px-6 py-2.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'users' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-gray-500 hover:text-gray-300'}`}
             >
               Users {users.length > 0 && <span className="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-[10px]">{users.length}</span>}
             </button>
