@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import StripeCheckout from './StripeCheckout';
 
 const CartPage = ({ cartItems, clearCart, user }) => {
   const [isOrdering, setIsOrdering] = useState(false);
+  const [showStripe, setShowStripe] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [shippingData, setShippingData] = useState({
     address: '',
@@ -31,11 +32,18 @@ const CartPage = ({ cartItems, clearCart, user }) => {
     setShippingData({ ...shippingData, [e.target.name]: e.target.value });
   };
 
-  const handleOrder = async (e) => {
+  const handleOrderInitiate = (e) => {
     e.preventDefault();
-    const userId = user.id || user._id;
-    if (!userId) return alert('Session mapping error. Please log out and log in again.');
+    if (!shippingData.address || !shippingData.city || !shippingData.postalCode || !shippingData.country) {
+      return alert('Please fill in all shipping details first.');
+    }
+    setShowStripe(true);
+  };
 
+  const finalizeOrder = async (paymentId) => {
+    setIsOrdering(true);
+    const userId = user.id || user._id;
+    
     try {
       const orderData = {
         userId: userId,
@@ -48,15 +56,16 @@ const CartPage = ({ cartItems, clearCart, user }) => {
           product: item._id
         })),
         shippingAddress: shippingData,
-        totalPrice: total
+        totalPrice: total,
+        paymentId: paymentId
       };
 
       await axios.post('/api/orders', orderData);
       setOrderComplete(true);
       clearCart();
     } catch (error) {
-      console.error('Order failed:', error);
-      alert('Payment processing failed. Please check your credentials.');
+      console.error('Order creation failed:', error);
+      alert('Order could not be saved. Please contact support.');
     } finally {
       setIsOrdering(false);
     }
@@ -137,7 +146,7 @@ const CartPage = ({ cartItems, clearCart, user }) => {
             <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-6 sticky top-24">
               <h2 className="text-xl font-semibold mb-6 border-b border-gray-700 pb-4">Secure Checkout</h2>
               
-              <form onSubmit={handleOrder} className="space-y-4">
+              <form onSubmit={handleOrderInitiate} className="space-y-4">
                 <div>
                   <label className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1 block">Shipping Address</label>
                   <input
@@ -197,21 +206,22 @@ const CartPage = ({ cartItems, clearCart, user }) => {
                   </div>
                 </div>
 
-                <button 
-                  type="submit"
-                  disabled={isOrdering}
-                  className={`w-full py-4 rounded-xl font-black text-xs tracking-widest transition-all shadow-lg ${
-                    isOrdering
-                      ? 'bg-blue-600/50 cursor-not-allowed text-gray-300 flex justify-center items-center'
-                      : 'bg-gradient-to-r from-blue-600 to-emerald-600 text-white hover:scale-[1.02] shadow-blue-500/20 active:scale-95'
-                  }`}
-                >
-                  {isOrdering ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-                  ) : (
-                    'CONFIRM & PAY'
-                  )}
-                </button>
+                {showStripe ? (
+                  <div className="mt-4 pt-6 border-t border-gray-700 animate-fadeIn">
+                    <StripeCheckout 
+                      amount={total.toFixed(2)} 
+                      onSuccess={finalizeOrder}
+                      onCancel={() => setShowStripe(false)}
+                    />
+                  </div>
+                ) : (
+                  <button 
+                    type="submit"
+                    className="w-full py-4 rounded-xl font-black text-xs tracking-widest transition-all shadow-lg bg-gradient-to-r from-blue-600 to-emerald-600 text-white hover:scale-[1.02] shadow-blue-500/20 active:scale-95"
+                  >
+                    PROCEED TO PAYMENT
+                  </button>
+                )}
               </form>
               
               <div className="mt-6 pt-6 border-t border-gray-700 flex justify-center gap-4 grayscale opacity-30 scale-75">

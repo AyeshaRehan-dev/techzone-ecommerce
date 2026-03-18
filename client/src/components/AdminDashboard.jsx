@@ -300,7 +300,8 @@ const AdminDashboard = () => {
                     {orders.map((order) => (
                       <tr key={order._id} className="hover:bg-blue-500/5 transition-all">
                         <td className="px-4 sm:px-8 py-6">
-                          <p className="text-[10px] font-mono text-gray-500 mb-1 break-all">{order._id}</p>
+                          <p className="text-[10px] font-mono text-gray-500 mb-1 break-all">ID: {order._id}</p>
+                          {order.paymentId && <p className="text-[10px] font-mono text-blue-500/70 mb-1 break-all">Stripe: {order.paymentId}</p>}
                           <p className="font-bold text-white text-sm">{order.username}</p>
                           <p className="text-[10px] text-gray-500 mt-1">{order.shippingAddress?.city}, {order.shippingAddress?.country}</p>
                         </td>

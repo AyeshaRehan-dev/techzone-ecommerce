@@ -48,7 +48,10 @@ const MyOrders = ({ userId }) => {
                 <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
                   <div>
                     <p className="text-blue-400 text-sm font-semibold uppercase tracking-wider">Order ID</p>
-                    <p className="text-white font-mono break-all text-xs">{order._id}</p>
+                    <p className="text-white font-mono break-all text-xs mb-1">{order._id}</p>
+                    {order.paymentId && (
+                      <p className="text-blue-500/70 font-mono break-all text-[10px]">Reference: {order.paymentId}</p>
+                    )}
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Date</p>

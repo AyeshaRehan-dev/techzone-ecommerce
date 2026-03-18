@@ -9,8 +9,30 @@ import CartPage from './components/CartPage';
 import AdminDashboard from './components/AdminDashboard';
 import AuthPage from './components/AuthPage';
 import MyOrders from './components/MyOrders';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
+// Initialize Stripe with the user's Publishable Key
+const stripePromise = loadStripe('pk_test_51TCPweB8lecLcTNPGB1HiQ16TTbqBFC8UsK8iMuJR7vFR4fyoLsSxl87hws41RL6QxJAc4A5MUK9IlnIZssB5D2n00lSQ6Ogws');
+
+// Set up axios to send JWT token with every request
+axios.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 function App() {
+  return (
+    <Elements stripe={stripePromise}>
+      <AppContent />
+    </Elements>
+  );
+}
+
+function AppContent() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
