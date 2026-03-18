@@ -86,6 +86,23 @@ app.put('/api/orders/:id/status', async (req, res) => {
 app.post('/api/auth/signup', async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    // Password validation
+    if (!password || password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+    if (password.length > 20) {
+      return res.status(400).json({ message: 'Password must be 20 characters or less' });
+    }
+    if (!/[A-Z]/.test(password)) {
+      return res.status(400).json({ message: 'Password needs at least one uppercase letter' });
+    }
+    if (!/[a-z]/.test(password)) {
+      return res.status(400).json({ message: 'Password needs at least one lowercase letter' });
+    }
+    if (!/[0-9]/.test(password)) {
+      return res.status(400).json({ message: 'Password needs at least one number' });
+    }
     
     // Check if user already exists
     let user = await User.findOne({ $or: [{ email }, { username }] });
