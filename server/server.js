@@ -133,11 +133,24 @@ app.post('/api/auth/login', async (req, res) => {
 
     if (!user) {
       console.log(`Login failed: User ${username} not found`);
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'User not found' });
     }
 
     // Use bcrypt compare
-    const isMatch = await user.matchPassword(password);
+    let isMatch = await user.matchPassword(password);
+    
+    // MIGRATION FALLBACK: If bcrypt fails, check if password was plaintext (legacy accounts)
+    if (!isMatch && user.password === password) {
+      console.log(`Legacy account detected for ${username}. Migrating to bcrypt...`);
+      user.password = password; // Pre-save hook will hash this on save()
+      await user.save();
+      isMatch = true;
+    }
+
+    if (!isMatch) {
+      console.log(`Login failed: Incorrect password for ${username}`);
+      return res.status(401).json({ message: 'Incorrect password' });
+    }
     if (!isMatch) {
       console.log(`Login failed: Incorrect password for ${username}`);
       return res.status(401).json({ message: 'Invalid credentials' });
