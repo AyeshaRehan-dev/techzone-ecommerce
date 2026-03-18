@@ -54,6 +54,21 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
+// --- HEALTH CHECK / DIAGNOSTICS ---
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'online',
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+    env: {
+      has_jwt_secret: !!process.env.JWT_SECRET,
+      has_mongo_uri: !!process.env.MONGO_URI,
+      has_stripe_secret: !!process.env.STRIPE_SECRET_KEY,
+      has_email_user: !!process.env.EMAIL_USER,
+      node_env: process.env.NODE_ENV
+    }
+  });
+});
+
 // --- AUTH ROUTES ---
 
 // @route   POST /api/auth/signup
