@@ -91,7 +91,6 @@ app.post('/api/auth/signup', async (req, res) => {
     const token = generateToken(user._id, user.role);
 
     // SEND WELCOME EMAIL (Async - don't block response)
-    const email = user.email || req.body.email;
     sendWelcomeEmail(email, user.username).catch(err => console.error('Email failed:', err));
 
     res.status(201).json({ 
