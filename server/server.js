@@ -99,7 +99,8 @@ app.post('/api/auth/signup', async (req, res) => {
       token
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    console.error('Signup error:', error);
+    res.status(500).json({ message: 'Server Signup Error', error: error.message });
   }
 });
 
@@ -111,11 +112,23 @@ app.post('/api/auth/login', async (req, res) => {
     username = username?.trim();
     password = password?.trim();
 
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
+    }
+
     console.log(`Login attempt for: ${username}`);
 
+    // Check JWT Secret
+    if (!process.env.JWT_SECRET) {
+      console.warn('WARNING: JWT_SECRET is missing in .env');
+    }
+
     // 1. Check if it's the Admin from .env
-    if ((username === process.env.ADMIN_USERNAME || username === 'admin@techzone.com') && 
-        password === process.env.ADMIN_PASSWORD) {
+    const envAdminUser = process.env.ADMIN_USERNAME || 'admin';
+    const envAdminPass = process.env.ADMIN_PASSWORD || 'admin123';
+
+    if ((username === envAdminUser || username === 'admin@techzone.com') && 
+        password === envAdminPass) {
       console.log('Admin login successful');
       const token = generateToken('507f1f77bcf86cd799439011', 'admin');
       return res.json({ 
@@ -150,6 +163,7 @@ app.post('/api/auth/login', async (req, res) => {
       console.log(`Login failed: Incorrect password for ${username}`);
       return res.status(401).json({ message: 'Incorrect password' });
     }
+
     console.log(`User login successful: ${user.username}`);
     const token = generateToken(user._id, user.role);
     res.json({ 
@@ -159,7 +173,7 @@ app.post('/api/auth/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Login Error', error: error.message });
   }
 });
 
