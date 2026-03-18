@@ -151,11 +151,6 @@ app.post('/api/auth/login', async (req, res) => {
       console.log(`Login failed: Incorrect password for ${username}`);
       return res.status(401).json({ message: 'Incorrect password' });
     }
-    if (!isMatch) {
-      console.log(`Login failed: Incorrect password for ${username}`);
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
     console.log(`User login successful: ${user.username}`);
     const token = generateToken(user._id, user.role);
     res.json({ 
