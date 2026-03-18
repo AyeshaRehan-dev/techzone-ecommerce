@@ -103,13 +103,13 @@ function App() {
             <>
               <Hero />
               <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-                <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
-                  <div className="flex items-center gap-4 overflow-x-auto pb-4 md:pb-0 scrollbar-hide">
+                <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center w-full md:w-auto">
                     {['All', 'Laptops', 'Accessories', 'Audio', 'Monitors'].map(cat => (
                       <span 
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
-                        className={`px-6 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest border transition-all cursor-pointer whitespace-nowrap ${
+                        className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl text-[10px] sm:text-xs font-bold sm:font-black uppercase tracking-wider sm:tracking-widest border transition-all cursor-pointer whitespace-nowrap ${
                           selectedCategory === cat 
                             ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20' 
                             : 'bg-gray-900/50 border-gray-800 text-gray-500 hover:border-gray-700 hover:text-gray-300'
