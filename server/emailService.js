@@ -89,10 +89,53 @@ const sendOrderConfirmation = async (userEmail, orderData) => {
   };
 
   try {
+    // 1. Send email to the customer
     await transporter.sendMail(mailOptions);
-    console.log(`Order confirmation sent to: ${userEmail}`);
+    console.log(`Order confirmation sent to user: ${userEmail}`);
+    
+    // 2. Send email to the Admin (Ayesha)
+    const adminMailOptions = {
+      from: `"TechZone System" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // Send back to the configured admin email
+      subject: `🚨 NEW ORDER ALERT - ${orderData.paymentMethod || 'Credit Card'}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 2px solid #ef4444; border-radius: 10px;">
+          <h2 style="color: #ef4444;">You have a new order! 📦</h2>
+          <p><strong>Customer Username:</strong> ${orderData.username}</p>
+          <p><strong>Customer Email:</strong> ${userEmail}</p>
+          <p><strong>Payment Method:</strong> ${orderData.paymentMethod || 'Credit Card'}</p>
+          
+          <h4 style="margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Order Details:</h4>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background-color: #f9f9f9;">
+              <th style="padding: 10px; text-align: left;">Item</th>
+              <th style="padding: 10px; text-align: right;">Price</th>
+            </tr>
+            ${itemsHtml}
+            <tr>
+              <td style="padding: 10px; font-weight: bold;">TOTAL:</td>
+              <td style="padding: 10px; font-weight: bold; text-align: right; color: #ef4444;">$${orderData.totalPrice.toFixed(2)}</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 20px; padding: 15px; background-color: #f3f4f6; border-radius: 8px;">
+            <p style="margin: 0; font-weight: bold;">Shipping Address:</p>
+            <p style="margin: 5px 0; color: #4b5563;">
+              ${orderData.shippingAddress.address}<br>
+              ${orderData.shippingAddress.city}, ${orderData.shippingAddress.postalCode}<br>
+              ${orderData.shippingAddress.country}
+            </p>
+          </div>
+          <p style="margin-top: 20px;">Please check the database for further processing.</p>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(adminMailOptions);
+    console.log(`Order alert sent to ADMIN: ${process.env.EMAIL_USER}`);
+
   } catch (error) {
-    console.error(`Error sending order email: ${error.message}`);
+    console.error(`Error sending order emails: ${error.message}`);
   }
 };
 
