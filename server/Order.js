@@ -27,7 +27,8 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    default: 'Credit Card'
+    required: true,
+    default: 'Not Selected'
   },
   totalPrice: {
     type: Number,
