@@ -34,19 +34,14 @@ const CartPage = ({ cartItems, clearCart, user }) => {
     setShippingData({ ...shippingData, [e.target.name]: e.target.value });
   };
 
-  const handleOrderInitiate = (e, isDirect = false) => {
-    if (e) e.preventDefault();
+  const handleOrderInitiate = (e) => {
+    e.preventDefault();
     if (!shippingData.address || !shippingData.city || !shippingData.postalCode || !shippingData.country) {
       return alert('Please fill in all shipping details first.');
     }
     
-    if (paymentMethod === 'Credit Card' && !isDirect) {
-      setShowStripe(true);
-    } else {
-      // Direct placement for COD or EasyPaisa
-      const idPrefix = paymentMethod === 'EasyPaisa' ? 'EP' : 'COD';
-      finalizeOrder(`${idPrefix}-${Date.now()}`);
-    }
+    // Direct placement for COD
+    finalizeOrder(`COD-${Date.now()}`);
   };
 
   const finalizeOrder = async (paymentId) => {
@@ -201,62 +196,6 @@ const CartPage = ({ cartItems, clearCart, user }) => {
                   />
                 </div>
 
-                {/* --- Payment Methods Section --- */}
-                <div className="mt-6 pt-4 border-t border-gray-700">
-                  <label className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-3 block">Payment Method</label>
-                  <div className="space-y-3">
-                    
-                    {/* Cash on Delivery */}
-                    <label className={`flex items-center p-3 border rounded-xl cursor-pointer transition-all ${paymentMethod === 'Cash on Delivery' ? 'border-blue-500 bg-blue-500/10' : 'border-gray-700 hover:border-gray-500'}`}>
-                      <input 
-                        type="radio" 
-                        name="paymentMethod" 
-                        value="Cash on Delivery" 
-                        checked={paymentMethod === 'Cash on Delivery'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="hidden"
-                      />
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center mr-3 ${paymentMethod === 'Cash on Delivery' ? 'border-blue-500' : 'border-gray-500'}`}>
-                         {paymentMethod === 'Cash on Delivery' && <div className="w-2 h-2 rounded-full bg-blue-500"></div>}
-                      </div>
-                      <span className="text-white font-medium flex-1">💵 Cash on Delivery</span>
-                    </label>
-
-                    {/* EasyPaisa */}
-                    <label className={`flex items-center p-3 border rounded-xl cursor-pointer transition-all ${paymentMethod === 'EasyPaisa' ? 'border-green-500 bg-green-500/10' : 'border-gray-700 hover:border-gray-500'}`}>
-                      <input 
-                        type="radio" 
-                        name="paymentMethod" 
-                        value="EasyPaisa" 
-                        checked={paymentMethod === 'EasyPaisa'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="hidden"
-                      />
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center mr-3 ${paymentMethod === 'EasyPaisa' ? 'border-green-500' : 'border-gray-500'}`}>
-                         {paymentMethod === 'EasyPaisa' && <div className="w-2 h-2 rounded-full bg-green-500"></div>}
-                      </div>
-                      <span className="text-white font-medium flex-1">📱 EasyPaisa</span>
-                    </label>
-
-                    {/* Credit Card */}
-                    <label className={`flex items-center p-3 border rounded-xl cursor-pointer transition-all ${paymentMethod === 'Credit Card' ? 'border-purple-500 bg-purple-500/10' : 'border-gray-700 hover:border-gray-500'}`}>
-                      <input 
-                        type="radio" 
-                        name="paymentMethod" 
-                        value="Credit Card" 
-                        checked={paymentMethod === 'Credit Card'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="hidden"
-                      />
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center mr-3 ${paymentMethod === 'Credit Card' ? 'border-purple-500' : 'border-gray-500'}`}>
-                         {paymentMethod === 'Credit Card' && <div className="w-2 h-2 rounded-full bg-purple-500"></div>}
-                      </div>
-                      <span className="text-white font-medium flex-1">💳 Credit / Debit Card</span>
-                    </label>
-
-                  </div>
-                </div>
-
                 <div className="space-y-4 my-6 pt-4 border-t border-gray-700">
                   <div className="flex justify-between text-gray-400">
                     <span>Subtotal</span>
@@ -272,53 +211,16 @@ const CartPage = ({ cartItems, clearCart, user }) => {
                   </div>
                 </div>
 
-                {/* Show appropriate payment UI based on selection */}
-                {paymentMethod === 'Credit Card' ? (
-                  showStripe ? (
-                    <div className="mt-4 pt-6 border-t border-gray-700 animate-fadeIn">
-                      <StripeCheckout 
-                        amount={total.toFixed(2)} 
-                        onSuccess={(id) => finalizeOrder(id)}
-                        onCancel={() => setShowStripe(false)}
-                      />
-                    </div>
-                  ) : (
-                    <button 
-                      type="submit"
-                      className="w-full py-4 rounded-xl font-black text-xs tracking-widest transition-all shadow-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-[1.02] shadow-purple-500/20 active:scale-95"
-                    >
-                      PAY WITH CARD
-                    </button>
-                  )
-                ) : paymentMethod === 'EasyPaisa' ? (
-                  <div className="animate-fadeIn">
-                    <div className="bg-green-900/30 border border-green-500/30 rounded-xl p-4 mb-4">
-                      <p className="text-green-400 text-sm font-medium mb-2">Send payment via EasyPaisa to:</p>
-                      <p className="text-2xl font-bold text-white tracking-widest">0300-1234567</p>
-                      <p className="text-gray-400 text-xs mt-2">Title: TechZone Store. Your order will be verified manually upon receiving the payment.</p>
-                    </div>
-                    <button 
-                      type="button"
-                      onClick={(e) => handleOrderInitiate(e, true)}
-                      disabled={isOrdering}
-                      className="w-full py-4 rounded-xl font-black text-xs tracking-widest transition-all shadow-lg bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:scale-[1.02] shadow-green-500/20 active:scale-95 disabled:opacity-50"
-                    >
-                      {isOrdering ? 'PROCESSING...' : 'I HAVE PAID, PLACE ORDER'}
-                    </button>
-                  </div>
-                ) : (
-                  // Cash on Delivery
-                  <div className="animate-fadeIn">
-                    <button 
-                      type="button"
-                      onClick={(e) => handleOrderInitiate(e, true)}
-                      disabled={isOrdering}
-                      className="w-full py-4 rounded-xl font-black text-xs tracking-widest transition-all shadow-lg bg-gray-700 hover:bg-gray-600 text-white hover:scale-[1.02] active:scale-95 disabled:opacity-50"
-                    >
-                      {isOrdering ? 'PROCESSING...' : 'CONFIRM ORDER (COD)'}
-                    </button>
-                  </div>
-                )}
+                {/* Cash on Delivery Button */}
+                <div className="animate-fadeIn">
+                  <button 
+                    type="submit"
+                    disabled={isOrdering}
+                    className="w-full py-4 rounded-xl font-black text-xs tracking-widest transition-all shadow-lg bg-gradient-to-r from-blue-600 to-emerald-600 text-white hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                  >
+                    {isOrdering ? 'PROCESSING...' : 'CONFIRM ORDER (Cash on Delivery)'}
+                  </button>
+                </div>
               </form>
               
               <div className="mt-6 pt-6 border-t border-gray-700 flex justify-center gap-4 grayscale opacity-30 scale-75">
