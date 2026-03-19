@@ -219,7 +219,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
 // @desc    Create a new order
 app.post('/api/orders', async (req, res) => {
   try {
-    const { items, shippingAddress, totalPrice, userId, username } = req.body;
+    const { items, shippingAddress, totalPrice, userId, username, paymentMethod, paymentId } = req.body;
 
     if (items && items.length === 0) {
       return res.status(400).json({ message: 'No order items' });
@@ -230,8 +230,9 @@ app.post('/api/orders', async (req, res) => {
       username,
       items,
       shippingAddress,
+      paymentMethod: paymentMethod || 'Credit Card',
       totalPrice,
-      paymentId: req.body.paymentId // Store Stripe reference
+      paymentId: paymentId || 'None'
     });
 
     const createdOrder = await order.save();
