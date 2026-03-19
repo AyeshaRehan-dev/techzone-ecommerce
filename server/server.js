@@ -105,8 +105,12 @@ app.post('/api/auth/signup', async (req, res) => {
 
     const token = generateToken(user._id, user.role);
 
-    // SEND WELCOME EMAIL (Async - don't block response)
-    sendWelcomeEmail(email, user.username).catch(err => console.error('Email failed:', err));
+    // SEND WELCOME EMAIL (Await to prevent Vercel timeout errors)
+    try {
+      await sendWelcomeEmail(email, user.username);
+    } catch (err) {
+      console.error('Email failed:', err);
+    }
 
     res.status(201).json({ 
       success: true, 
@@ -240,7 +244,11 @@ app.post('/api/orders', async (req, res) => {
     // FETCH USER EMAIL FOR CONFIRMATION
     const userObj = await User.findById(userId);
     if (userObj) {
-      sendOrderConfirmation(userObj.email, createdOrder).catch(err => console.error('Email failed:', err));
+      try {
+        await sendOrderConfirmation(userObj.email, createdOrder);
+      } catch (err) {
+        console.error('Email failed:', err);
+      }
     }
 
     res.status(201).json(createdOrder);
